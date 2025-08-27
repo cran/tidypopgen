@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>The grammar of population genetics</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">The grammar of population genetics</h1>
+
+
+
+<div id="tidy-data-in-population-genetics" class="section level2">
+<h2>Tidy data in population genetics</h2>
+<p>The fundamental tenet of tidy data that is that each observation
+should have its own row and each variable its own column, such that each
+value has its own cell. Applying this logic to population genetic data
+means that each individual should have its own row, with individual
+metadata (such as its population, sex, phenotype, etc) as the variables.
+Genotypes for each locus can also be thought of as variables, however,
+due to the large number of loci and the restricted values that each
+genotype can take, it would be very inefficient to store them as
+individual standard columns.</p>
+<p>In <code>tidypopgen</code>, we represent data as a
+<code>gen_tbl</code>, a subclass of <code>tibble</code> which has two
+compulsory columns: <code>id</code> of the individual (as a
+<code>character</code>, which must be unique for each individual), and
+<code>genotypes</code> (stored in a compressed format as a File-Backed
+Matrix. The <code>genotypes</code> column stores a vector of the row
+indices of the matrix for each individual and, when printed, shows the
+first two genotypes for the individual).</p>
+<p>The real data reside on disk, and an attribute <code>bigsnp</code> of
+the <code>genotype</code> column contains all the information to access
+it. There is also an additional attribute , <code>loci</code> which
+provides all the information about the loci, including the column
+indices that represent each locus in the FBM. The vector of row indices
+and the table of loci can be subsetted and reordered without changing
+the data on disk; thus, any operation on the <code>gen_tibble</code> is
+fast as it shapes the indices of the genotype matrix rather than the
+matrix itself.<br />
+The <code>loci</code> tibble includes columns <code>big_index</code> for
+the index in the FBM, <code>name</code> for the locus name (a
+<code>character</code>, which must be unique), <code>chromosome</code>
+for the chromosome (an <code>integer</code>, if known, otherwise set to
+<code>NA</code>), <code>position</code> for the position on the
+chromosome (an <code>integer</code>, if known, otherwise set to
+<code>NA</code>), <code>genetic_dist</code> for the genetic distance on
+the chromosome (<code>numeric</code>, if known, else set to 0),
+<code>allele_ref</code> for the the reference allele (a
+<code>character</code>), and <code>allele_alt</code> for the alternate
+allele (a <code>character</code>, which can be <code>0</code> for
+monomorphic loci, following the same convention as plink). Additional
+individual metadata can be stored as columns in the main
+<code>gen_tbl</code>, whilst additional loci information (such as the
+position in centimorgans) can be added as columns in the
+<code>loci</code> attribute table.</p>
+<p>In principle, it is possible to use use multiple ways to compress the
+genotypes. <code>tidypopgen</code> currently uses a <code>bigSNP</code>
+object from the package <code>bigsnpr</code>. It is very fast and well
+documented, but it is mostly geared towards diploid data.
+<code>tidypopgen</code> expands that object to deal with different
+levels of ploidy, including multiple ploidy within a single dataset;
+however, most functions are currently incompatible with ploidy levels
+other than 2 (but they will return a clear error message and avoid
+computing anything incorrectly).</p>
+</div>
+<div id="the-grammar-of-population-genetics" class="section level2">
+<h2>The grammar of population genetics</h2>
+<div id="the-gen_tibble" class="section level3">
+<h3>The <code>gen_tibble</code></h3>
+<p>Given information about the individuals, their genotypes, and the
+loci:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidypopgen)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Loading required package: dplyr</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#&gt; Loading required package: tibble</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>example_indiv_meta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>, <span class="st">&quot;e&quot;</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>  <span class="at">population =</span> <span class="fu">c</span>(<span class="st">&quot;pop1&quot;</span>, <span class="st">&quot;pop1&quot;</span>, <span class="st">&quot;pop2&quot;</span>, <span class="st">&quot;pop2&quot;</span>, <span class="st">&quot;pop2&quot;</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>example_genotypes <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="cn">NA</span>, <span class="dv">0</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>)</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>example_loci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;rs1&quot;</span>, <span class="st">&quot;rs2&quot;</span>, <span class="st">&quot;rs3&quot;</span>, <span class="st">&quot;rs4&quot;</span>, <span class="st">&quot;x1&quot;</span>, <span class="st">&quot;x2&quot;</span>),</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  <span class="at">chromosome =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  <span class="at">position =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">65</span>, <span class="dv">343</span>, <span class="dv">23</span>, <span class="dv">456</span>),</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  <span class="at">genetic_dist =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  <span class="at">allele_ref =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;T&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;T&quot;</span>),</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  <span class="at">allele_alt =</span> <span class="fu">c</span>(<span class="st">&quot;T&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="cn">NA</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;G&quot;</span>, <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>)</span></code></pre></div>
+<p>We can create a simple <code>gen_tibble</code> object (of class
+<code>gen_tbl</code>) with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>example_gt <span class="ot">&lt;-</span> <span class="fu">gen_tibble</span>(example_genotypes,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">indiv_meta =</span> example_indiv_meta,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">loci =</span> example_loci,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">backingfile =</span> <span class="fu">tempfile</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/file15ba95c4a0906.gt</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/file15ba95c4a0906.rds</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/file15ba95c4a0906.bk</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/file15ba95c4a0906.gt&#39;)</span></span></code></pre></div>
+<p>We are provided information on where the three files underlying the
+genotype information are stored. As we don’t want to keep the files, we
+used the tmp directory; normally you will want to use your working
+directory so that the files will not be cleared by R at the end of the
+session. It is important that these files are not deleted or moved, as
+<code>gen_tibble</code> stores their paths for future use.</p>
+<p>Now let’s have a look at our <code>gen_tibble</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>example_gt</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 6 loci</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 3</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 1 a     pop1        [1,1,...]</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 2 b     pop1        [2,0,...]</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 3 c     pop2        [1,2,...]</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 4 d     pop2        [0,2,...]</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 5 e     pop2        [1,1,...]</span></span></code></pre></div>
+<p>As discussed above, when this tibble is called, the
+<code>genotypes</code> column prints the first two genotypes of the
+individual. The <code>genotypes</code> column itself contains the
+indices of the individuals in the FBM as values, and the FBM as an
+attribute.</p>
+<p>To retrieve the rest of the genotypes (which are compressed in the
+FBM), we use:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">show_genotypes</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; [1,]    1    1    0    1    1    0</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [2,]    2    0    0    0   NA    0</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    0    0    1    1</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [4,]    0    2    0    1    2    1</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [5,]    1    1   NA    2    1    0</span></span></code></pre></div>
+<p>If we want to extract the information about the loci for which we
+have genotypes (which are stored as an attribute of that column), we
+say:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">show_loci</span>()</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt;   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1         1 rs1   1                 3            0 A          T                1</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; 2         2 rs2   1                 5            0 T          C                1</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 3         3 rs3   1                65            0 C          &lt;NA&gt;             1</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 4         4 rs4   1               343            0 G          C                1</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 5         5 x1    2                23            0 C          G                2</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 6         6 x2    2               456            0 T          A                2</span></span></code></pre></div>
+<p>Note that, if we are passing a <code>gen_tibble</code> to a function
+that works on genotypes, it is generally not necessary to pass the
+column <code>genotypes</code> in the call:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">indiv_het_obs</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.6666667 0.0000000 0.5000000 0.3333333 0.6000000</span></span></code></pre></div>
+<p>However, if such a function is used within a <code>dplyr</code> verb
+such as <code>mutate</code>, we need to pass the <code>genotype</code>
+column to the function:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">het_obs =</span> <span class="fu">indiv_het_obs</span>(.data<span class="sc">$</span>genotypes))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 6 loci</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 4</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes het_obs</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;   &lt;dbl&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 1 a     pop1        [1,1,...]   0.667</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 2 b     pop1        [2,0,...]   0    </span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 3 c     pop2        [1,2,...]   0.5  </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 4 d     pop2        [0,2,...]   0.333</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 5 e     pop2        [1,1,...]   0.6</span></span></code></pre></div>
+<p>Or, more simply:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">het_obs =</span> <span class="fu">indiv_het_obs</span>(genotypes))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 6 loci</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 4</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes het_obs</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;   &lt;dbl&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; 1 a     pop1        [1,1,...]   0.667</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; 2 b     pop1        [2,0,...]   0    </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; 3 c     pop2        [1,2,...]   0.5  </span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; 4 d     pop2        [0,2,...]   0.333</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; 5 e     pop2        [1,1,...]   0.6</span></span></code></pre></div>
+</div>
+</div>
+<div id="standard-dplyr-verbs-to-manipulate-the-tibble" class="section level2">
+<h2>Standard <code>dplyr</code> verbs to manipulate the tibble</h2>
+<p>The individual metadata can then be processed with the usual
+<code>tidyverse</code> grammar. So, we can filter individuals by
+population with</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>example_pop2 <span class="ot">&lt;-</span> example_gt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&quot;pop2&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>example_pop2</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 6 loci</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; # A tibble:     3 × 3</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; 1 c     pop2        [1,2,...]</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; 2 d     pop2        [0,2,...]</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; 3 e     pop2        [1,1,...]</span></span></code></pre></div>
+<p>There are a number of functions that compute population genetics
+quantities for each individual, such as individual observed
+heterozygosity. We can compute them simply with:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">indiv_het_obs</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.6666667 0.0000000 0.5000000 0.3333333 0.6000000</span></span></code></pre></div>
+<p>Or after filtering:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&quot;pop2&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">indiv_het_obs</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; [1] 0.5000000 0.3333333 0.6000000</span></span></code></pre></div>
+<p>We can use <code>mutate</code> to add observed heterozygosity as a
+column to our <code>gen_tibble</code> (again, note that functions that
+work on genotypes don’t need to be passed any arguments if the tibble is
+passed directly to them, but the column <code>genotypes</code> has to be
+provided when they are used within <code>dplyr</code> verbs such as
+<code>mutate</code>):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">het_obs =</span> <span class="fu">indiv_het_obs</span>(genotypes))</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 6 loci</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 4</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes het_obs</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;   &lt;dbl&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 1 a     pop1        [1,1,...]   0.667</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 2 b     pop1        [2,0,...]   0    </span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 3 c     pop2        [1,2,...]   0.5  </span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 4 d     pop2        [0,2,...]   0.333</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co">#&gt; 5 e     pop2        [1,1,...]   0.6</span></span></code></pre></div>
+<p>There are a number of functions that estimate quantities at the
+<em>individual</em> level, and they are prefixed by
+<code>indiv_</code>.</p>
+</div>
+<div id="using-verbs-on-loci" class="section level1">
+<h1>Using verbs on loci</h1>
+<p>Since the genotypes of the loci are stored as a compressed list in
+one column, it is not possible to use standard <code>dplyr</code> verbs
+on them. However, <code>tidypopgen</code> provides a number of
+specialised verbs, postfixed by <code>_loci</code>, to manipulate
+loci.</p>
+<p>A key operation on loci is their selection (and removal). The
+compressed nature of genotypes imposes some constraints on the possible
+grammar. For selection, there are two verbs: <code>select_loci</code>
+and <code>select_loci_if</code>. <code>select_loci</code> understands
+the concise-minilanguage spoken by standard <code>dplyr::select</code>
+that allows to easily refer to variables by their names. However,
+<code>select_loci</code> criteria can not be based on the actual
+genotypes (e.g. on heterozygosity or missingness). For that, we have to
+use <code>select_loci_if</code>, which can operate on the genotypes but
+is blind to the names of loci.</p>
+<p>Let us start by looking at the loci names in our simple dataset:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">loci_names</span>(example_gt)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;rs1&quot; &quot;rs2&quot; &quot;rs3&quot; &quot;rs4&quot; &quot;x1&quot;  &quot;x2&quot;</span></span></code></pre></div>
+<p>We can see that there are two categories of loci, one starting with
+“rs” and the other with “x”. If we wanted to select only loci that have
+an “rs” code, we would use:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>example_sub <span class="ot">&lt;-</span> example_gt <span class="sc">%&gt;%</span> <span class="fu">select_loci</span>(<span class="fu">starts_with</span>(<span class="st">&quot;rs&quot;</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>example_sub</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 4 loci</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 3</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; 1 a     pop1        [1,1,...]</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; 2 b     pop1        [2,0,...]</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; 3 c     pop2        [1,2,...]</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; 4 d     pop2        [0,2,...]</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; 5 e     pop2        [1,1,...]</span></span></code></pre></div>
+<p>This gives us a <code>gen_tibble</code> with only 4 loci, as
+expected. We can confirm that we have the correct loci with:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">loci_names</span>(example_sub)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;rs1&quot; &quot;rs2&quot; &quot;rs3&quot; &quot;rs4&quot;</span></span></code></pre></div>
+<p>Let us check that this has indeed impacted the individual
+heterozygosity</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>example_sub <span class="sc">%&gt;%</span> <span class="fu">indiv_het_obs</span>()</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.5000000 0.0000000 0.1666667 0.1666667 0.4000000</span></span></code></pre></div>
+<p>We can also subset and reorder by passing indices:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">select_loci</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">show_loci</span>()</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 8</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt;   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt; 1         2 rs2   1                 5            0 T          C                1</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; 2         6 x2    2               456            0 T          A                2</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt; 3         1 rs1   1                 3            0 A          T                1</span></span></code></pre></div>
+<p>This operation could be helpful when merging datasets that do not
+fully overlap on their loci (more on that later).</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">select_loci</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">show_genotypes</span>()</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; [1,]    1    0    1</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; [2,]    0    0    2</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; [3,]    2    1    1</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; [4,]    2    1    0</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; [5,]    1    0    1</span></span></code></pre></div>
+<p>The limit of <code>select_loci</code> is that it can not directly
+summarise the genotypes. We can do that separately and then feed the
+result as a set of indices. For example, we might want to impose a
+minimum minor allele frequency. <code>loci_maf()</code> allows us to
+inspect the minimum allele frequencies in a <code>gen_tibble</code>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span> <span class="fu">loci_maf</span>()</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="co">#&gt; [1] 0.500 0.400 0.000 0.400 0.375 0.200</span></span></code></pre></div>
+<p>We can now create a vector of indices of loci with a minimum allele
+frequency (MAF) larger than 0.2, and use it to select:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>sel_indices <span class="ot">&lt;-</span> <span class="fu">which</span>((example_gt <span class="sc">%&gt;%</span> <span class="fu">loci_maf</span>()) <span class="sc">&gt;</span> <span class="fl">0.2</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="fu">select_loci</span>(<span class="fu">all_of</span>(sel_indices)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">show_loci</span>()</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 4 × 8</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="co">#&gt;   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co">#&gt; 1         1 rs1   1                 3            0 A          T                1</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co">#&gt; 2         2 rs2   1                 5            0 T          C                1</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co">#&gt; 3         4 rs4   1               343            0 G          C                1</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co">#&gt; 4         5 x1    2                23            0 C          G                2</span></span></code></pre></div>
+<p>Note that passing a variable directly to <code>select</code> is
+deprecated, and so we have to use <code>all_of</code> to wrap it.</p>
+<p><code>select_loci_if</code> allows us to avoid creating a temporary
+variable to store indices:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>example_gt_sub <span class="ot">&lt;-</span> example_gt <span class="sc">%&gt;%</span> <span class="fu">select_loci_if</span>(<span class="fu">loci_maf</span>(genotypes) <span class="sc">&gt;</span> <span class="fl">0.2</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>example_gt_sub <span class="sc">%&gt;%</span> <span class="fu">show_genotypes</span>()</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4]</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co">#&gt; [1,]    1    1    1    1</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="co">#&gt; [2,]    2    0    0   NA</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    0    1</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#&gt; [4,]    0    2    1    2</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co">#&gt; [5,]    1    1    2    1</span></span></code></pre></div>
+<p>Note that, as we need to tidy evaluate <code>loci_maf</code> within
+the <code>select_loci_if</code> verb, we need to provide it with the
+column that we want to use (even though it has to be
+<code>genotypes</code>). Also note that, with
+<code>select_loci_if</code>, we cannot reorder the loci.</p>
+<p><code>select_loci_if</code> is very flexible; for example, we could
+filter loci with a MAF greater than 0.2 that are also on chromosome
+2.</p>
+<p>We can use a similar approach to select only alleles on a given
+chromosome:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">select_loci_if</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>    <span class="fu">loci_chromosomes</span>(genotypes) <span class="sc">==</span> <span class="dv">2</span> <span class="sc">&amp;</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>      <span class="fu">loci_maf</span>(genotypes) <span class="sc">&gt;</span> <span class="fl">0.2</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">show_loci</span>()</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 8</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co">#&gt;   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co">#&gt; 1         5 x1    2                23            0 C          G                2</span></span></code></pre></div>
+<p>Incidentally, <code>loci_maf()</code> is one of several functions
+that compute quantities by locus; they can be identified as they start
+with <code>loci_</code>.</p>
+</div>
+<div id="grouping-individuals-in-populations" class="section level1">
+<h1>Grouping individuals in populations</h1>
+<p>In population genetics, we are generally interested in computing
+quantities that describe groups of individuals (i.e. populations).
+Grouping can be used in a number of ways.</p>
+<p>As a starting point, we can group by population and get pop
+sizes:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">tally</span>()</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 2</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="co">#&gt;   population     n</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="co">#&gt; 1 pop1           2</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a><span class="co">#&gt; 2 pop2           3</span></span></code></pre></div>
+<p>For functions that return one result per individual (such as
+<code>indiv_het_obs</code> that we used before), we can use
+<code>summarise</code>, which returns a new <code>tibble</code> with one
+line per population. For example, we can count the number of individuals
+per population, as well as their mean heterozygosity with :</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_het =</span> <span class="fu">mean</span>(<span class="fu">indiv_het_obs</span>(genotypes)))</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="co">#&gt;   population     n mean_het</span></span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a><span class="co">#&gt; 1 pop1           2    0.333</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="co">#&gt; 2 pop2           3    0.478</span></span></code></pre></div>
+<p>However, note that this is somewhat inefficient, as computing the pop
+averages requires multiple access to the data. A more efficient approach
+is to:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">het_obs =</span> <span class="fu">indiv_het_obs</span>(genotypes)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">mean_het =</span> <span class="fu">mean</span>(het_obs))</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co">#&gt;   population     n mean_het</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a><span class="co">#&gt; 1 pop1           2    0.333</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a><span class="co">#&gt; 2 pop2           3    0.478</span></span></code></pre></div>
+<p>In this way, we compute all individual heterozygosities in one go
+(optimising our file access time), and then generate the population
+summaries.</p>
+<p>When working with loci, you can use <code>reframe</code> to apply
+functions across groups. To use <code>reframe</code> correctly, be sure
+to select the <code>genotype</code> column within the loci verbs:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">loci_hwe =</span> <span class="fu">loci_hwe</span>(genotypes))</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#&gt; # A tibble: 12 × 2</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a><span class="co">#&gt;    population loci_hwe</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a><span class="co">#&gt;  1 pop1            0.5</span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="co">#&gt;  2 pop1            0.5</span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a><span class="co">#&gt;  3 pop1            0.5</span></span>
+<span id="cb26-10"><a href="#cb26-10" tabindex="-1"></a><span class="co">#&gt;  4 pop1            0.5</span></span>
+<span id="cb26-11"><a href="#cb26-11" tabindex="-1"></a><span class="co">#&gt;  5 pop1            0.5</span></span>
+<span id="cb26-12"><a href="#cb26-12" tabindex="-1"></a><span class="co">#&gt;  6 pop1            0.5</span></span>
+<span id="cb26-13"><a href="#cb26-13" tabindex="-1"></a><span class="co">#&gt;  7 pop2            0.6</span></span>
+<span id="cb26-14"><a href="#cb26-14" tabindex="-1"></a><span class="co">#&gt;  8 pop2            0.5</span></span>
+<span id="cb26-15"><a href="#cb26-15" tabindex="-1"></a><span class="co">#&gt;  9 pop2            0.5</span></span>
+<span id="cb26-16"><a href="#cb26-16" tabindex="-1"></a><span class="co">#&gt; 10 pop2            0.7</span></span>
+<span id="cb26-17"><a href="#cb26-17" tabindex="-1"></a><span class="co">#&gt; 11 pop2            0.6</span></span>
+<span id="cb26-18"><a href="#cb26-18" tabindex="-1"></a><span class="co">#&gt; 12 pop2            0.6</span></span></code></pre></div>
+<p>Some functions, such as <code>loci_maf()</code>, also have a method
+for grouped tibbles that allows an even easier syntax:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">loci_maf</span>()</span></code></pre></div>
+<p>These methods are coded in C++ to be very efficient, and they should
+be preferred to the <code>reframe()</code> option. By default, their
+outputs will return a tidy tibble, with one row per locus per population
+(i.e. the same as we would get with <code>reframe()</code>). However,
+using the <code>type</code> argument, it is also possible to return a
+list:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">loci_maf</span>(<span class="at">type =</span> <span class="st">&quot;list&quot;</span>)</span></code></pre></div>
+<p>Or a matrix:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="fu">loci_maf</span>(<span class="at">type =</span> <span class="st">&quot;matrix&quot;</span>)</span></code></pre></div>
+<p>Certain metrics and analyses are naturally defined by a grouped
+tibble as they refer to populations, such as population-specific Fst.
+For example:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">pop_fst</span>()</span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="co">#&gt;        pop1        pop2 </span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a><span class="co">#&gt;  0.34146341 -0.04878049</span></span></code></pre></div>
+<p>These type of functions are prefixed with <code>pop</code>.</p>
+</div>
+<div id="functions-applies-to-all-pairwise-and-nwise-combinations-of-individuals-or-populations" class="section level1">
+<h1>Functions applies to all pairwise and nwise combinations of
+individuals or populations</h1>
+<p>The final group of verbs are prefixed by <code>pairwise_</code> and
+<code>nwise_</code>, and they are designed to compute pairwise
+statistics between all pairs or combinations of n individuals or
+populations (when targeting populations, we start with
+<code>pairwise_pop_</code> and <code>nwise_pop_</code>). For example, to
+get the Identity by State for all pairs of individuals, we use:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>example_gt <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="fu">pairwise_ibs</span>()</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co">#&gt; # A tibble: 10 × 3</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="co">#&gt;    item1 item2 value</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a><span class="co">#&gt;  1 a     b     0.7  </span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co">#&gt;  2 a     c     0.75 </span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="co">#&gt;  3 a     d     0.667</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a><span class="co">#&gt;  4 a     e     0.9  </span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a><span class="co">#&gt;  5 b     c     0.6  </span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a><span class="co">#&gt;  6 b     d     0.4  </span></span>
+<span id="cb31-12"><a href="#cb31-12" tabindex="-1"></a><span class="co">#&gt;  7 b     e     0.5  </span></span>
+<span id="cb31-13"><a href="#cb31-13" tabindex="-1"></a><span class="co">#&gt;  8 c     d     0.75 </span></span>
+<span id="cb31-14"><a href="#cb31-14" tabindex="-1"></a><span class="co">#&gt;  9 c     e     0.6  </span></span>
+<span id="cb31-15"><a href="#cb31-15" tabindex="-1"></a><span class="co">#&gt; 10 d     e     0.5</span></span></code></pre></div>
+</div>
+<div id="saving-and-reading-data" class="section level1">
+<h1>Saving and reading data</h1>
+<p>We can save a <code>gen_tibble</code> with <code>gt_save()</code>.
+This command will save a file with extension <code>.gt</code>. Together
+with the <code>.rds</code> and <code>.bk</code> files, the
+<code>.gt</code> file include all the information stored in the
+<code>gen_tibble</code>. Note that, whilst the <code>.rds</code> and
+<code>.bk</code> file have to share name, the <code>.gt</code> file can
+be named differently (but, by default, if no specific name is given,
+<code>gt_save</code> will use the same pattern as for the
+<code>.rds</code> and <code>.bk</code> file).</p>
+<p>So, let us save our file:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>gt_file_name <span class="ot">&lt;-</span> <span class="fu">gt_save</span>(example_gt)</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/file15ba95c4a0906.gt</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/file15ba95c4a0906.rds</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/file15ba95c4a0906.bk</span></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/file15ba95c4a0906.gt&#39;)</span></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>gt_file_name</span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/tmp/Rtmp6pqvt1/file15ba95c4a0906.gt&quot; </span></span>
+<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a><span class="co">#&gt; [2] &quot;/tmp/Rtmp6pqvt1/file15ba95c4a0906.rds&quot;</span></span>
+<span id="cb32-12"><a href="#cb32-12" tabindex="-1"></a><span class="co">#&gt; [3] &quot;/tmp/Rtmp6pqvt1/file15ba95c4a0906.bk&quot;</span></span></code></pre></div>
+<p>And if we ever need to retrieve the location of the <code>.bk</code>
+and <code>.rds</code> files for a gen_tibble, we can use:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">gt_get_file_names</span>(example_gt)</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/tmp/Rtmp6pqvt1/file15ba95c4a0906.rds&quot;</span></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co">#&gt; [2] &quot;/tmp/Rtmp6pqvt1/file15ba95c4a0906.bk&quot;</span></span></code></pre></div>
+<p>In a later session, we could reload the data with:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>new_example_gt <span class="ot">&lt;-</span> <span class="fu">gt_load</span>(gt_file_name[<span class="dv">1</span>])</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>new_example_gt <span class="sc">%&gt;%</span> <span class="fu">show_genotypes</span>()</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6]</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="co">#&gt; [1,]    1    1    0    1    1    0</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a><span class="co">#&gt; [2,]    2    0    0    0   NA    0</span></span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    0    0    1    1</span></span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a><span class="co">#&gt; [4,]    0    2    0    1    2    1</span></span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a><span class="co">#&gt; [5,]    1    1   NA    2    1    0</span></span></code></pre></div>
+<p>We can see that our genotypes were recovered correctly.</p>
+<p>As we saw at the beginning of this vignette, it is possible to create
+a <code>gen_tibble</code> with data in data.frames and tibbles. We can
+use that function to wrangle small datasets in custom formats, but more
+commonly SNP data are stored as PLINK bed files or VCF files.
+<code>gen_tibble</code> can directly read both types of files (including
+gzipped vcf files), we just need to provide the path to file as the
+first argument of <code>gen_tibble</code>; for example, if we want to
+read a PLINK bed file, we can simply use:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>bed_path_pop_a <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/pop_a.bed&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tidypopgen&quot;</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>pop_a_gt <span class="ot">&lt;-</span> <span class="fu">gen_tibble</span>(bed_path_pop_a, <span class="at">backingfile =</span> <span class="fu">tempfile</span>(<span class="st">&quot;pop_a_&quot;</span>))</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/pop_a_15ba93f240620.gt</span></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/pop_a_15ba93f240620.rds</span></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/pop_a_15ba93f240620.bk</span></span>
+<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/pop_a_15ba93f240620.gt&#39;)</span></span></code></pre></div>
+<p>For this vignette, we don’t want to keep files, so we are using again
+a temporary path for the backing files, but in normal instances, we can
+simply omit the <code>backingfile</code> parameter, and the
+<code>.rds</code> and <code>.bk</code> file will be saved with the same
+name and path as the original <code>.bed</code> file.</p>
+<p>We can also export data into various formats with the family of
+functions <code>gt_as_*()</code>. Some functions, such as
+<code>gt_as_hierfstat()</code>, <code>gt_as_genind()</code> or
+<code>gt_as_genlight()</code> return an object of the appropriate type;
+other functions, such as <code>gt_as_plink()</code> or
+<code>gt_as_geno_lea()</code> write a file in the appropriate format,
+and return the name of that file on completion. For example, to export
+to a PLINK .bed file, we simply use:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">gt_as_plink</span>(example_gt, <span class="at">file =</span> <span class="fu">tempfile</span>(<span class="st">&quot;new_bed_&quot;</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;/tmp/Rtmp6pqvt1/new_bed_15ba922f5359d.bed&quot;</span></span></code></pre></div>
+<p>This will also write a .bim and .fam file and save them together with
+the .bed file. Note that, from the main tibble, only <code>id</code>,
+<code>population</code> and <code>sex</code> will be preserved in the
+.fam file. It is also possible to write .ped and .raw files by
+specifying <code>type=&quot;ped&quot;</code> or <code>type=&quot;raw&quot;</code> in
+<code>gt_as_plink()</code> (see the help page for
+<code>gt_as_plink()</code> for details).</p>
+</div>
+<div id="merging-data" class="section level1">
+<h1>Merging data</h1>
+<p>Merging data from different sources is a common problem, especially
+in human population genetics where there is a wealth of SNP chips
+available. In <code>tidypopgen</code>, merging is enacted with an
+<code>rbind</code> operation between <code>gen_tibbles</code>. If the
+datasets have the same loci, then the merge is trivial. If not, then it
+is necessary to subset to the same loci, and ensure that the data are
+coded with the same reference and alternate alleles (or swap if needed).
+Additionally, if data come from SNP chips, there is the added
+complication that the strand is not always consistent, so it might also
+be necessary to flip strand (in that case, ambiguous SNPs have to be
+filtered). The <code>rbind</code> method for <code>gen_tibbles</code>
+has a number of parameters that allow us to control the behaviour of the
+merge.</p>
+<p>Let us start by bringing in two sample datasets (note that we use
+tempfiles to store the data; in real applications, we will usually avoid
+defining a backingfile and let the function create backing files where
+the bed file is stored):</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>bed_path_pop_a <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/pop_a.bed&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tidypopgen&quot;</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>bigsnp_path_a <span class="ot">&lt;-</span></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>  bigsnpr<span class="sc">::</span><span class="fu">snp_readBed</span>(bed_path_pop_a, <span class="at">backingfile =</span> <span class="fu">tempfile</span>(<span class="st">&quot;pop_a_&quot;</span>))</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>pop_a_gt <span class="ot">&lt;-</span> <span class="fu">gen_tibble</span>(bigsnp_path_a)</span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/pop_a_15ba96667166c.gt</span></span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/pop_a_15ba96667166c.rds</span></span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/pop_a_15ba96667166c.bk</span></span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb37-11"><a href="#cb37-11" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/pop_a_15ba96667166c.gt&#39;)</span></span>
+<span id="cb37-12"><a href="#cb37-12" tabindex="-1"></a>bed_path_pop_b <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata/pop_b.bed&quot;</span>, <span class="at">package =</span> <span class="st">&quot;tidypopgen&quot;</span>)</span>
+<span id="cb37-13"><a href="#cb37-13" tabindex="-1"></a>bigsnp_path_b <span class="ot">&lt;-</span></span>
+<span id="cb37-14"><a href="#cb37-14" tabindex="-1"></a>  bigsnpr<span class="sc">::</span><span class="fu">snp_readBed</span>(bed_path_pop_b, <span class="at">backingfile =</span> <span class="fu">tempfile</span>(<span class="st">&quot;pop_b_&quot;</span>))</span>
+<span id="cb37-15"><a href="#cb37-15" tabindex="-1"></a>pop_b_gt <span class="ot">&lt;-</span> <span class="fu">gen_tibble</span>(bigsnp_path_b)</span>
+<span id="cb37-16"><a href="#cb37-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb37-17"><a href="#cb37-17" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/pop_b_15ba96ee7d229.gt</span></span>
+<span id="cb37-18"><a href="#cb37-18" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/pop_b_15ba96ee7d229.rds</span></span>
+<span id="cb37-19"><a href="#cb37-19" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/pop_b_15ba96ee7d229.bk</span></span>
+<span id="cb37-20"><a href="#cb37-20" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb37-21"><a href="#cb37-21" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb37-22"><a href="#cb37-22" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/pop_b_15ba96ee7d229.gt&#39;)</span></span></code></pre></div>
+<p>And inspect them:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>pop_a_gt</span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 16 loci</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 3</span></span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes</span></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a><span class="co">#&gt; 1 GRC24 pop_a       [0,0,...]</span></span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a><span class="co">#&gt; 2 GRC25 pop_a       [0,0,...]</span></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a><span class="co">#&gt; 3 GRC26 pop_a       [0,1,...]</span></span>
+<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a><span class="co">#&gt; 4 GRC27 pop_a       [0,0,...]</span></span>
+<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a><span class="co">#&gt; 5 GRC28 pop_a       [0,0,...]</span></span></code></pre></div>
+<p>And the other one:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>pop_b_gt</span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 17 loci</span></span>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     3 × 3</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a><span class="co">#&gt;   id     population  genotypes</span></span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a><span class="co">#&gt; 1 SL088  pop_b       [0,0,...]</span></span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a><span class="co">#&gt; 2 SL1329 pop_b       [1,1,...]</span></span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a><span class="co">#&gt; 3 SL1108 pop_b       [0,1,...]</span></span></code></pre></div>
+<p>Here we are using very small datasets, but in real life,
+<code>rbind</code> operations are very demanding. Before performing such
+an operation, we can run <code>rbind_dry_run</code>:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>report <span class="ot">&lt;-</span> <span class="fu">rbind_dry_run</span>(pop_a_gt, pop_b_gt, <span class="at">flip_strand =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="co">#&gt; harmonising loci between two datasets</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="co">#&gt; flip_strand =  TRUE  ; remove_ambiguous =  TRUE </span></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="co">#&gt; -----------------------------</span></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="co">#&gt; dataset: reference </span></span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a><span class="co">#&gt; number of SNPs: 16 reduced to 12 </span></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a><span class="co">#&gt; ( 2 are ambiguous, of which 2  were removed)</span></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a><span class="co">#&gt; -----------------------------</span></span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a><span class="co">#&gt; dataset: target </span></span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a><span class="co">#&gt; number of SNPs: 17 reduced to 12 </span></span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a><span class="co">#&gt; ( 5 were flipped to match the reference set)</span></span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a><span class="co">#&gt; ( 2 are ambiguous, of which 2 were removed)</span></span></code></pre></div>
+<p>Note that, by default, <code>rbind</code> will NOT flip strand or
+remove ambiguous SNPs (as they are only relevant when merging different
+SNP chips), you need to set <code>flip_strand</code> to TRUE.</p>
+<p>The report object contains details about why each locus was either
+kept or removed, but usually the report is sufficient to make decisions
+on whether we want to go ahead. If we are happy with the likely outcome,
+we can proceed with the <code>rbind</code>. Note that the data will be
+saved to disk. We can either provide a path and prefix, to which ‘.RDS’
+and ‘.bk’ will be appended for the <code>bigSNP</code> file and its
+backing file; or let the function save the files in the same path as the
+original backing file of the first object).</p>
+<p>NOTE: In this vignette, we save to the temporary directory, but in
+real life you want to save in a directory where you will be able to
+retrieve the file at a later date!!!</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># #create merge</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>merged_gt <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pop_a_gt, pop_b_gt,</span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="at">flip_strand =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a>  <span class="at">backingfile =</span> <span class="fu">file.path</span>(<span class="fu">tempdir</span>(), <span class="st">&quot;gt_merged&quot;</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>)</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a><span class="co">#&gt; harmonising loci between two datasets</span></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a><span class="co">#&gt; flip_strand =  TRUE  ; remove_ambiguous =  TRUE </span></span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a><span class="co">#&gt; -----------------------------</span></span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a><span class="co">#&gt; dataset: reference </span></span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a><span class="co">#&gt; number of SNPs: 16 reduced to 12 </span></span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a><span class="co">#&gt; ( 2 are ambiguous, of which 2  were removed)</span></span>
+<span id="cb41-12"><a href="#cb41-12" tabindex="-1"></a><span class="co">#&gt; -----------------------------</span></span>
+<span id="cb41-13"><a href="#cb41-13" tabindex="-1"></a><span class="co">#&gt; dataset: target </span></span>
+<span id="cb41-14"><a href="#cb41-14" tabindex="-1"></a><span class="co">#&gt; number of SNPs: 17 reduced to 12 </span></span>
+<span id="cb41-15"><a href="#cb41-15" tabindex="-1"></a><span class="co">#&gt; ( 5 were flipped to match the reference set)</span></span>
+<span id="cb41-16"><a href="#cb41-16" tabindex="-1"></a><span class="co">#&gt; ( 2 are ambiguous, of which 2 were removed)</span></span>
+<span id="cb41-17"><a href="#cb41-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb41-18"><a href="#cb41-18" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/gt_merged.gt</span></span>
+<span id="cb41-19"><a href="#cb41-19" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/gt_merged.rds</span></span>
+<span id="cb41-20"><a href="#cb41-20" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/gt_merged.bk</span></span>
+<span id="cb41-21"><a href="#cb41-21" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb41-22"><a href="#cb41-22" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb41-23"><a href="#cb41-23" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/gt_merged.gt&#39;)</span></span></code></pre></div>
+<p>Let’s check the resulting <code>gen_tibble</code>:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>merged_gt</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 12 loci</span></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     8 × 3</span></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="co">#&gt;   id     population  genotypes</span></span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a><span class="co">#&gt; 1 GRC24  pop_a       [0,0,...]</span></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a><span class="co">#&gt; 2 GRC25  pop_a       [0,0,...]</span></span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a><span class="co">#&gt; 3 GRC26  pop_a       [1,1,...]</span></span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a><span class="co">#&gt; 4 GRC27  pop_a       [0,0,...]</span></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a><span class="co">#&gt; 5 GRC28  pop_a       [0,1,...]</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a><span class="co">#&gt; 6 SL088  pop_b       [0,0,...]</span></span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a><span class="co">#&gt; 7 SL1329 pop_b       [1,1,...]</span></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a><span class="co">#&gt; 8 SL1108 pop_b       [0,1,...]</span></span></code></pre></div>
+<p>We can look at the subsetted loci (note that we used the first
+population as reference to determine the strand and order of
+alleles):</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>merged_gt <span class="sc">%&gt;%</span> <span class="fu">show_loci</span>()</span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 12 × 8</span></span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a><span class="co">#&gt;    big_index name       chromosome  position genetic_dist allele_ref allele_alt</span></span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a><span class="co">#&gt;        &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;int&gt;        &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     </span></span>
+<span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a><span class="co">#&gt;  1         1 rs3094315  1             752566            0 A          G         </span></span>
+<span id="cb43-6"><a href="#cb43-6" tabindex="-1"></a><span class="co">#&gt;  2         2 rs3131972  1             752721            0 G          A         </span></span>
+<span id="cb43-7"><a href="#cb43-7" tabindex="-1"></a><span class="co">#&gt;  3         3 rs12124819 1             776546            0 A          G         </span></span>
+<span id="cb43-8"><a href="#cb43-8" tabindex="-1"></a><span class="co">#&gt;  4         4 rs11240777 1             798959            0 G          A         </span></span>
+<span id="cb43-9"><a href="#cb43-9" tabindex="-1"></a><span class="co">#&gt;  5         5 rs1110052  1             873558            0 G          T         </span></span>
+<span id="cb43-10"><a href="#cb43-10" tabindex="-1"></a><span class="co">#&gt;  6         6 rs6657048  1             957640            0 C          T         </span></span>
+<span id="cb43-11"><a href="#cb43-11" tabindex="-1"></a><span class="co">#&gt;  7         7 rs2488991  1             994391            0 T          G         </span></span>
+<span id="cb43-12"><a href="#cb43-12" tabindex="-1"></a><span class="co">#&gt;  8         8 rs2862633  2           61974443            0 G          A         </span></span>
+<span id="cb43-13"><a href="#cb43-13" tabindex="-1"></a><span class="co">#&gt;  9         9 rs28569024 2          139008811            0 T          C         </span></span>
+<span id="cb43-14"><a href="#cb43-14" tabindex="-1"></a><span class="co">#&gt; 10        10 rs10106770 2          235832763            0 G          A         </span></span>
+<span id="cb43-15"><a href="#cb43-15" tabindex="-1"></a><span class="co">#&gt; 11        11 rs11942835 3          155913651            0 T          C         </span></span>
+<span id="cb43-16"><a href="#cb43-16" tabindex="-1"></a><span class="co">#&gt; 12        12 rs5945676  23          51433071            0 T          G         </span></span>
+<span id="cb43-17"><a href="#cb43-17" tabindex="-1"></a><span class="co">#&gt; # ℹ 1 more variable: chr_int &lt;int&gt;</span></span></code></pre></div>
+<p>Note that the <code>big_index</code> values have changed compared to
+the original files, as we generated a new FBM with the merged data.</p>
+<p>By default, <code>rbind</code> using the loci names to match the two
+datasets. The option ‘use_position = TRUE’ forces matching by chromosome
+and position; note that a common source of problems when merging is the
+coding of chromosomes (e.g. a dataset has ‘chromosome1’ and the other
+‘chr1’). If using ‘use_position = TRUE’, you should also make sure that
+the two datasets were aligned to the same reference genome assembly.</p>
+</div>
+<div id="imputation" class="section level1">
+<h1>Imputation</h1>
+<p>Many genetic analysis (e.g. PCA) do not allow missing data. In many
+software implementations, missing genotypes are imputed on the fly,
+often in a simplistic manner. In <code>tidypopgen</code>, we encourage
+taking this step explicitly, before running any analysis.</p>
+<p>Let us start with a dataset that has some missing genotypes:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>bed_file <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;example-missing.bed&quot;</span>, <span class="at">package =</span> <span class="st">&quot;bigsnpr&quot;</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a>missing_gt <span class="ot">&lt;-</span> <span class="fu">gen_tibble</span>(bed_file, <span class="at">backingfile =</span> <span class="fu">tempfile</span>(<span class="st">&quot;missing_&quot;</span>))</span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a><span class="co">#&gt; gen_tibble saved to /tmp/Rtmp6pqvt1/missing_15ba934032838.gt</span></span>
+<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a><span class="co">#&gt; using bigSNP file: /tmp/Rtmp6pqvt1/missing_15ba934032838.rds</span></span>
+<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a><span class="co">#&gt; with backing file: /tmp/Rtmp6pqvt1/missing_15ba934032838.bk</span></span>
+<span id="cb44-7"><a href="#cb44-7" tabindex="-1"></a><span class="co">#&gt; make sure that you do NOT delete those files!</span></span>
+<span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a><span class="co">#&gt; to reload the gen_tibble in another session, use:</span></span>
+<span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a><span class="co">#&gt; gt_load(&#39;/tmp/Rtmp6pqvt1/missing_15ba934032838.gt&#39;)</span></span>
+<span id="cb44-10"><a href="#cb44-10" tabindex="-1"></a>missing_gt</span>
+<span id="cb44-11"><a href="#cb44-11" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 500 loci</span></span>
+<span id="cb44-12"><a href="#cb44-12" tabindex="-1"></a><span class="co">#&gt; # A tibble:     200 × 3</span></span>
+<span id="cb44-13"><a href="#cb44-13" tabindex="-1"></a><span class="co">#&gt;    id     population  genotypes</span></span>
+<span id="cb44-14"><a href="#cb44-14" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
+<span id="cb44-15"><a href="#cb44-15" tabindex="-1"></a><span class="co">#&gt;  1 ind_1  fam_1       [0,.,...]</span></span>
+<span id="cb44-16"><a href="#cb44-16" tabindex="-1"></a><span class="co">#&gt;  2 ind_2  fam_2       [0,.,...]</span></span>
+<span id="cb44-17"><a href="#cb44-17" tabindex="-1"></a><span class="co">#&gt;  3 ind_3  fam_3       [0,0,...]</span></span>
+<span id="cb44-18"><a href="#cb44-18" tabindex="-1"></a><span class="co">#&gt;  4 ind_4  fam_4       [.,0,...]</span></span>
+<span id="cb44-19"><a href="#cb44-19" tabindex="-1"></a><span class="co">#&gt;  5 ind_5  fam_5       [0,0,...]</span></span>
+<span id="cb44-20"><a href="#cb44-20" tabindex="-1"></a><span class="co">#&gt;  6 ind_6  fam_6       [0,0,...]</span></span>
+<span id="cb44-21"><a href="#cb44-21" tabindex="-1"></a><span class="co">#&gt;  7 ind_7  fam_7       [0,0,...]</span></span>
+<span id="cb44-22"><a href="#cb44-22" tabindex="-1"></a><span class="co">#&gt;  8 ind_8  fam_8       [0,0,...]</span></span>
+<span id="cb44-23"><a href="#cb44-23" tabindex="-1"></a><span class="co">#&gt;  9 ind_9  fam_9       [0,0,...]</span></span>
+<span id="cb44-24"><a href="#cb44-24" tabindex="-1"></a><span class="co">#&gt; 10 ind_10 fam_10      [0,0,...]</span></span>
+<span id="cb44-25"><a href="#cb44-25" tabindex="-1"></a><span class="co">#&gt; # ℹ 190 more rows</span></span></code></pre></div>
+<p>We can visualise the amount of missingness with:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a>missing_gt <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>  <span class="fu">loci_missingness</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a>  <span class="fu">hist</span>()</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of loci missingness, showing that most loci have no missing data, while some have a small proportion of missing data" src="data:image/png;base64,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" alt="Histogram of loci missingness, showing that most loci have no missing data, while some have a small proportion of missing data" /></p>
+<p>If we attempt to run a PCA on this dataset, we get:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>missing_pca <span class="ot">&lt;-</span> missing_gt <span class="sc">%&gt;%</span> <span class="fu">gt_pca_autoSVD</span>()</span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a><span class="co">#&gt; Error: You can&#39;t have missing values in &#39;G&#39;.</span></span></code></pre></div>
+<p>Note that using gt_pca_autoSVD with a small dataset will likely cause
+an error, see manual page for details.</p>
+<p>It is possible to obviate to this problem by filtering loci with
+missing data, but that might lose a lot of loci. The alternative is to
+impute the missing the data. <code>tidypopgen</code> provides a wrapper
+for fast imputation available in <code>bigsnpr</code>, a simple
+imputation (<code>gt_impute_simple</code>) based on the frequency of the
+alleles at each locus (by random sampling, or using the mean or mode).
+These methods are fine to impute a few missing genotypes, but they
+should not be used for any sophisticated imputation (e.g. of low
+coverage genomes).</p>
+<p>We use the simple approach to fix our dataset:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>missing_gt <span class="ot">&lt;-</span> <span class="fu">gt_impute_simple</span>(missing_gt, <span class="at">method =</span> <span class="st">&quot;mode&quot;</span>)</span></code></pre></div>
+<p>We can now check that our dataset has indeed been imputed:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">gt_has_imputed</span>(missing_gt)</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>However, note that a <code>gen_tibble</code> stores both the raw data
+and the imputed data. Even after imputation, the imputed data are not
+used by default:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">gt_uses_imputed</span>(missing_gt)</span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>And indeed, if we summarise missingness, we still get:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a>missing_gt <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a>  <span class="fu">loci_missingness</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>  <span class="fu">hist</span>()</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of loci missingness as above, showing that the use of imputed data is not automatic" src="data:image/png;base64,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" alt="Histogram of loci missingness as above, showing that the use of imputed data is not automatic" /></p>
+<p>We can manually force a <code>gen_tibble</code> to use the imputed
+data:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="fu">gt_set_imputed</span>(missing_gt, <span class="at">set =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a>missing_gt <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a>  <span class="fu">loci_missingness</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a>  <span class="fu">hist</span>()</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of loci missingness after setting use of imputed data to true, showing that there is no missingness" src="data:image/png;base64,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" alt="Histogram of loci missingness after setting use of imputed data to true, showing that there is no missingness" /></p>
+<p>However, this is generally not needed, we can keep our
+<code>gen_tibble</code> set to use the raw data:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">gt_set_imputed</span>(missing_gt, <span class="at">set =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>missing_gt <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">loci_missingness</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>  <span class="fu">hist</span>()</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of loci missingness after setting use of imputed data to false again" src="data:image/png;base64,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" alt="Histogram of loci missingness after setting use of imputed data to false again" /></p>
+<p>And let functions that need imputation use it automatically:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>missing_pca <span class="ot">&lt;-</span> missing_gt <span class="sc">%&gt;%</span> <span class="fu">gt_pca_partialSVD</span>()</span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>missing_pca</span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a><span class="co">#&gt;  === PCA of gen_tibble object ===</span></span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a><span class="co">#&gt; Method: [1] &quot;partialSVD&quot;</span></span>
+<span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb53-6"><a href="#cb53-6" tabindex="-1"></a><span class="co">#&gt; Call ($call):gt_pca_partialSVD(x = .)</span></span>
+<span id="cb53-7"><a href="#cb53-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb53-8"><a href="#cb53-8" tabindex="-1"></a><span class="co">#&gt; Eigenvalues ($d):</span></span>
+<span id="cb53-9"><a href="#cb53-9" tabindex="-1"></a><span class="co">#&gt;  146.859 106.219 90.352 80.983 69.332 68.427 ...</span></span>
+<span id="cb53-10"><a href="#cb53-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb53-11"><a href="#cb53-11" tabindex="-1"></a><span class="co">#&gt; Principal component scores ($u):</span></span>
+<span id="cb53-12"><a href="#cb53-12" tabindex="-1"></a><span class="co">#&gt;  matrix with 200 rows (individuals) and 10 columns (axes) </span></span>
+<span id="cb53-13"><a href="#cb53-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb53-14"><a href="#cb53-14" tabindex="-1"></a><span class="co">#&gt; Loadings (Principal axes) ($v):</span></span>
+<span id="cb53-15"><a href="#cb53-15" tabindex="-1"></a><span class="co">#&gt;  matrix with 500 rows (SNPs) and 10 columns (axes)</span></span></code></pre></div>
+<p>Note that, when the function is finished, the <code>gen_tibble</code>
+is back to using the raw genotypes:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">gt_uses_imputed</span>(missing_gt)</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>missing_gt <span class="sc">%&gt;%</span></span>
+<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a>  <span class="fu">loci_missingness</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb54-5"><a href="#cb54-5" tabindex="-1"></a>  <span class="fu">hist</span>()</span></code></pre></div>
+<p><img role="img" aria-label="Histogram of loci missingness, showing that use of imputed data is not automatically set to true, after using a PCA function" src="data:image/png;base64,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" alt="Histogram of loci missingness, showing that use of imputed data is not automatically set to true, after using a PCA function" /></p>
+<p>More details about PCA and other analysis is found in the vignette on
+population genetic analysis.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
