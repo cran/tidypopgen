@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +61,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -420,14 +421,14 @@ to PLINK flags such as –extract or –autosome, it is necessary to use the
 example:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">select_loci_if</span>(<span class="fu">loci_chromosomes</span>(genotypes) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">22</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 15 loci</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 3</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;   id    population  genotypes</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;vctr_SNP&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 1 GRC24 pop_a       [0,0,...]</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 2 GRC25 pop_a       [0,0,...]</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 3 GRC26 pop_a       [0,1,...]</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 4 GRC27 pop_a       [0,0,...]</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 5 GRC28 pop_a       [0,0,...]</span></span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; # A tibble:     5 × 4</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;   id    population sex    genotypes</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;fct&gt; &lt;vctr_SNP&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 1 GRC24 pop_a      male   [0,0,...]</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; 2 GRC25 pop_a      male   [0,0,...]</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; 3 GRC26 pop_a      male   [0,1,...]</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; 4 GRC27 pop_a      male   [0,0,...]</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#&gt; 5 GRC28 pop_a      male   [0,0,...]</span></span></code></pre></div>
 <p>will select autosomal loci in the same way as –autosome. Or
 alternatively:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>my_snps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;rs4477212&quot;</span>, <span class="st">&quot;rs3094315&quot;</span>, <span class="st">&quot;rs3131972&quot;</span>, <span class="st">&quot;rs12124819&quot;</span>, <span class="st">&quot;rs11240777&quot;</span>)</span>
@@ -435,14 +436,14 @@ alternatively:</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">select_loci_if</span>(<span class="fu">loci_names</span>(genotypes) <span class="sc">%in%</span> my_snps) <span class="sc">%&gt;%</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">show_loci</span>()</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 8</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;        &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1         1 rs44… 1             82154            0 A          &lt;NA&gt;             1</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2         2 rs30… 1            752566            0 A          G                1</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 3         3 rs31… 1            752721            0 G          A                1</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 4         4 rs12… 1            776546            0 A          &lt;NA&gt;             1</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 5         5 rs11… 1            798959            0 G          A                1</span></span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 7</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;   big_index name       chromosome position genetic_dist allele_ref allele_alt</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;       &lt;int&gt; &lt;chr&gt;      &lt;fct&gt;         &lt;int&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 1         1 rs4477212  1             82154            0 A          &lt;NA&gt;      </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 2         2 rs3094315  1            752566            0 A          G         </span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; 3         3 rs3131972  1            752721            0 G          A         </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 4         4 rs12124819 1            776546            0 A          &lt;NA&gt;      </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 5         5 rs11240777 1            798959            0 G          A</span></span></code></pre></div>
 <p>will select loci from a previously defined set in the same way as
 –extract.</p>
 <p>Similarly, to filter out individuals, as might be performed with
@@ -451,8 +452,8 @@ alternatively:</p>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(id <span class="sc">%in%</span> my_individuals)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; # A gen_tibble: 16 loci</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; # A tibble:     0 × 3</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; # ℹ 3 variables: id &lt;chr&gt;, population &lt;chr&gt;, genotypes &lt;vctr_SNP&gt;</span></span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; # A tibble:     0 × 4</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; # ℹ 4 variables: id &lt;chr&gt;, population &lt;chr&gt;, sex &lt;fct&gt;, genotypes &lt;vctr_SNP&gt;</span></span></code></pre></div>
 </div>
 <div id="handling-linkage" class="section level2">
 <h2>Handling linkage</h2>

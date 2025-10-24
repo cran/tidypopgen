@@ -50,7 +50,7 @@ that you provide the positions if available.}
 \item{int_min_size}{Minimum number of consecutive outlier SNPs in order to be
 reported as long-range LD region. Default is \code{20}.}
 
-\item{alpha_tukey}{Default is \code{0.1}. The type-I error rate in outlier
+\item{alpha_tukey}{Default is \code{0.05}. The type-I error rate in outlier
 detection (that is further corrected for multiple testing).}
 
 \item{min_mac}{Minimum minor allele count (MAC) for variants to be included.
@@ -102,7 +102,7 @@ Note: rather than accessing these elements directly, it is better to use
 \code{tidy} and \code{augment}. See \code{\link{gt_pca_tidiers}}.
 }
 \examples{
-\dontshow{if (all(rlang::is_installed(c("RhpcBLASctl", "data.table")))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(rlang::is_installed(c("RhpcBLASctl", "data.table")))) withAutoprint(\{ # examplesIf}
 \dontshow{
 data.table::setDTthreads(2)
 RhpcBLASctl::blas_set_num_threads(2)
@@ -121,7 +121,6 @@ lobsters <- lobsters \%>\% select_loci_if(loci_maf(genotypes) > 0)
 lobsters <- gt_impute_simple(lobsters, method = "mode")
 
 show_loci(lobsters)$chromosome <- "1"
-show_loci(lobsters)$chr_int <- 1
 
 # Create PCA object, including total variance
 gt_pca_autoSVD(lobsters,
@@ -136,4 +135,7 @@ gt_pca_autoSVD(lobsters,
   total_var = FALSE
 )
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[bigsnpr:snp_autoSVD]{bigsnpr::snp_autoSVD()}}  which this function wraps.
 }

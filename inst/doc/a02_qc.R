@@ -27,8 +27,8 @@ nrow(data)
 mean_val <- mean(individual_report$het_obs)
 sd_val <- stats::sd(individual_report$het_obs)
 
-lower <- mean_val - 3 * (sd_val)
-upper <- mean_val + 3 * (sd_val)
+lower <- mean_val - 2 * (sd_val)
+upper <- mean_val + 2 * (sd_val)
 
 data <- data %>% filter(indiv_het_obs(genotypes) > lower)
 data <- data %>% filter(indiv_het_obs(genotypes) < upper)
@@ -107,7 +107,7 @@ ld_data <- imputed_data %>%
 gt_save(ld_data, file_name = tempfile())
 
 ## -----------------------------------------------------------------------------
-data <- data %>% mutate(population = c(rep("A", 4), rep("B", 5)))
+data <- data %>% mutate(population = c(rep("A", 4), rep("B", 4)))
 
 ## -----------------------------------------------------------------------------
 grouped_loci_report <- data %>%

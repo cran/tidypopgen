@@ -175,13 +175,9 @@ gt_as_plink(example_gt, file = tempfile("new_bed_"))
 
 ## -----------------------------------------------------------------------------
 bed_path_pop_a <- system.file("extdata/pop_a.bed", package = "tidypopgen")
-bigsnp_path_a <-
-  bigsnpr::snp_readBed(bed_path_pop_a, backingfile = tempfile("pop_a_"))
-pop_a_gt <- gen_tibble(bigsnp_path_a)
+pop_a_gt <- gen_tibble(bed_path_pop_a, backingfile = tempfile("pop_a_"))
 bed_path_pop_b <- system.file("extdata/pop_b.bed", package = "tidypopgen")
-bigsnp_path_b <-
-  bigsnpr::snp_readBed(bed_path_pop_b, backingfile = tempfile("pop_b_"))
-pop_b_gt <- gen_tibble(bigsnp_path_b)
+pop_b_gt <- gen_tibble(bed_path_pop_b, backingfile = tempfile("pop_b_"))
 
 ## -----------------------------------------------------------------------------
 pop_a_gt

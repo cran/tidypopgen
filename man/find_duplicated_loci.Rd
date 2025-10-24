@@ -18,10 +18,11 @@ loci are found.}
 \item{...}{other arguments passed to specific methods.}
 }
 \value{
-if \code{list_duplicates} is TRUE, returns a vector of duplicated loci.
-If \code{list_duplicates} is FALSE, returns a logical value indicating whether
-there are any duplicated loci. If \code{error_on_false} is TRUE and there are
-duplicates, an error is thrown.
+If \code{list_duplicates} is TRUE, returns a character vector of
+duplicated loci names (character(0) when none). If \code{list_duplicates} is
+FALSE, returns TRUE when no duplicates exist and FALSE when duplicates are
+present. If \code{error_on_false} is TRUE and duplicates exist, an error is
+thrown.
 }
 \description{
 This function finds duplicated SNPs by checking the positions within each
@@ -37,8 +38,7 @@ show_loci(example_gt) <- test_loci <- data.frame(
   position = as.integer(c(3, 3, 5, 65, 343, 46)),
   genetic_dist = as.double(rep(0, 6)),
   allele_ref = c("A", "T", "C", "G", "C", "T"),
-  allele_alt = c("T", "C", NA, "C", "G", "A"),
-  chr_int = rep(1, 6)
+  allele_alt = c("T", "C", NA, "C", "G", "A")
 )
 
 show_loci(example_gt)

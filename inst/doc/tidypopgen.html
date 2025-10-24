@@ -48,8 +48,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +61,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -368,7 +369,10 @@ Matrix that can be easily accessed by functions in
 <code>tidypopgen</code>. The <code>genotypes</code> column contains a
 vector of the row indices of each individual in the File-Backed Matrix,
 and when printed, the <code>genotypes</code> column shows the first two
-genotypes for each individual.</p>
+genotypes for each individual. For a visual representation of the
+<code>gen_tibble</code> object structure and a full discussion of how to
+manipulate <code>gen_tibble</code> objects, see vignette ‘The grammar of
+population genetics’.</p>
 <p>Additionally, if data are loaded from a .bed file with information in
 the <code>FID</code> column, this is treated as population information
 and is automatically added to the <code>gen_tibble</code> as column
@@ -414,15 +418,15 @@ use the <code>show_loci</code> function, which returns a tibble with
 information about each locus. Again this is a big table, so we will use
 <code>head()</code> to only look at the first few:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">head</span>(lobsters <span class="sc">%&gt;%</span> <span class="fu">show_loci</span>())</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 8
-##   big_index name  chromosome position genetic_dist allele_ref allele_alt chr_int
-##       &lt;int&gt; &lt;chr&gt; &lt;chr&gt;         &lt;int&gt;        &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;int&gt;
-## 1         1 rs34… 1                 1            1 G          A                1
-## 2         2 rs41… 2                 2            2 C          T                2
-## 3         3 rs61… 3                 3            3 G          C                3
-## 4         4 rs75… 4                 4            4 C          T                4
-## 5         5 rs78… 5                 5            5 A          T                5
-## 6         6 rs94… 7                 7            7 A          G                7</code></pre>
+<pre><code>## # A tibble: 6 × 7
+##   big_index name   chromosome position genetic_dist allele_ref allele_alt
+##       &lt;int&gt; &lt;chr&gt;  &lt;fct&gt;         &lt;int&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;     
+## 1         1 rs3441 1                 1            1 G          A         
+## 2         2 rs4173 2                 2            2 C          T         
+## 3         3 rs6157 3                 3            3 G          C         
+## 4         4 rs7502 4                 4            4 C          T         
+## 5         5 rs7892 5                 5            5 A          T         
+## 6         6 rs9441 7                 7            7 A          G</code></pre>
 <p>Now we have a <code>gen_tibble</code> to work with, we can start to
 clean the data.</p>
 </div>
@@ -485,8 +489,8 @@ using the function <code>gt_update_backingfile</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>lobsters <span class="ot">&lt;-</span> <span class="fu">gt_update_backingfile</span>(lobsters, <span class="at">backingfile =</span> <span class="fu">tempfile</span>())</span></code></pre></div>
 <pre><code>## 
 ## gen_backing files updated, now</code></pre>
-<pre><code>## using bigSNP file: /tmp/Rtmp6pqvt1/file15ba924637d69.rds</code></pre>
-<pre><code>## with backing file: /tmp/Rtmp6pqvt1/file15ba924637d69.bk</code></pre>
+<pre><code>## using FBM RDS: /tmp/RtmpeA9m64/file2de16f1550f4.rds</code></pre>
+<pre><code>## with FBM backing file: /tmp/RtmpeA9m64/file2de16f1550f4.bk</code></pre>
 <pre><code>## make sure that you do NOT delete those files!</code></pre>
 <p>Now our data are clean and the backingfile is updated, we are ready
 to create a PCA.</p>

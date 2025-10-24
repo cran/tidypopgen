@@ -1,6 +1,6 @@
 Package: tidypopgen
 Title: Tidy Population Genetics
-Version: 0.3.2
+Version: 0.4.0
 Authors@R: 
     c(person("Evie", "Carter", role = c("aut")),
     person("Eirlys", "Tysall", role = c("aut")),
@@ -26,7 +26,7 @@ Language: en-GB
 URL: https://github.com/EvolEcolGroup/tidypopgen,
         https://evolecolgroup.github.io/tidypopgen/
 BugReports: https://github.com/EvolEcolGroup/tidypopgen/issues
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: R (>= 3.5.0), dplyr, tibble
 Imports: bigparallelr, bigsnpr, bigstatsr, foreach, generics, ggplot2,
         methods, MASS, patchwork, runner, rlang, sf, stats, tidyselect,
@@ -42,7 +42,7 @@ LinkingTo: Rcpp, RcppArmadillo (>= 0.9.600), bigstatsr, rmio
 LazyData: true
 Config/Needs/website: rmarkdown
 NeedsCompilation: yes
-Packaged: 2025-08-22 14:24:42 UTC; andrea
+Packaged: 2025-10-24 16:02:00 UTC; andrea
 Author: Evie Carter [aut],
   Eirlys Tysall [aut],
   Andrea Manica [aut, cre, cph] (ORCID:
@@ -55,4 +55,4 @@ Author: Evie Carter [aut],
     .vcf in count_vcf_variants())
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Repository: CRAN
-Date/Publication: 2025-08-27 17:10:02 UTC
+Date/Publication: 2025-10-24 16:30:03 UTC

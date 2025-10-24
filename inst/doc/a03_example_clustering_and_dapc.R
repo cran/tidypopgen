@@ -77,6 +77,9 @@ autoplot(anole_pca, type = "screeplot")
 ## ----fig.alt = "Score plot of individuals across the first and second Principal Components"----
 autoplot(anole_pca, type = "scores")
 
+## ----fig.alt = "Score plot of individuals across the first and third Principal Components"----
+autoplot(anole_pca, type = "scores", k = c(1, 3))
+
 ## ----fig.alt = "Score plot of individuals across the first and second Principal Components, with individual samples coloured by population"----
 library(ggplot2)
 autoplot(anole_pca, type = "scores") +
