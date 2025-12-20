@@ -549,25 +549,26 @@ quickly with <code>gt_impute_simple</code>.</p>
 <p>Because we have removed individuals through our filtering, we first
 need to update the backingfiles with:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">gt_update_backingfile</span>(data)</span></code></pre></div>
-<pre><code>## Genetic distances are not sorted, setting them to zero</code></pre>
 <pre><code>## 
 ## gen_backing files updated, now</code></pre>
-<pre><code>## using FBM RDS: /tmp/RtmpeA9m64/file2de14264ac25_v2.rds</code></pre>
-<pre><code>## with FBM backing file: /tmp/RtmpeA9m64/file2de14264ac25_v2.bk</code></pre>
+<pre><code>## using FBM RDS: /tmp/Rtmpyi50Ar/file17f537192c4d3_v2.rds</code></pre>
+<pre><code>## with FBM backing file: /tmp/Rtmpyi50Ar/file17f537192c4d3_v2.bk</code></pre>
 <pre><code>## make sure that you do NOT delete those files!</code></pre>
+<pre><code>## to reload the gen_tibble in another session, use:</code></pre>
+<pre><code>## gt_load(&#39;/tmp/Rtmpyi50Ar/file17f537192c4d3_v2.gt&#39;)</code></pre>
 <p>And then we can impute using:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>imputed_data <span class="ot">&lt;-</span> <span class="fu">gt_impute_simple</span>(data, <span class="at">method =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>imputed_data <span class="ot">&lt;-</span> <span class="fu">gt_impute_simple</span>(data, <span class="at">method =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
 <p>In this example, if we want to remove SNPs with a correlation greater
 than 0.2 in windows of 10 SNPs at a time, we can set these parameters
 with <code>thr_r2</code> and <code>size</code> respectively.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>to_keep_ld <span class="ot">&lt;-</span> <span class="fu">loci_ld_clump</span>(imputed_data, <span class="at">thr_r2 =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">10</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="fu">head</span>(to_keep_ld)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>to_keep_ld <span class="ot">&lt;-</span> <span class="fu">loci_ld_clump</span>(imputed_data, <span class="at">thr_r2 =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="fu">head</span>(to_keep_ld)</span></code></pre></div>
 <pre><code>## [1] FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
 <p><code>loci_ld_clump</code> provides a boolean vector the same length
 as our list of SNPs, telling us which to keep in the data set. We can
 then use this list to create a pruned version of our data:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>ld_data <span class="ot">&lt;-</span> imputed_data <span class="sc">%&gt;%</span></span>
-<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>  <span class="fu">select_loci_if</span>(<span class="fu">loci_ld_clump</span>(genotypes, <span class="at">thr_r2 =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a>ld_data <span class="ot">&lt;-</span> imputed_data <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>  <span class="fu">select_loci_if</span>(<span class="fu">loci_ld_clump</span>(genotypes, <span class="at">thr_r2 =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">10</span>))</span></code></pre></div>
 </div>
 <div id="save" class="section level1">
 <h1>Save</h1>
@@ -577,17 +578,17 @@ necessary.</p>
 <p>When we are happy with the quality of our data, we can create and
 save a final quality controlled version of our <code>gen_tibble</code>
 using <code>gt_save</code>.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="fu">gt_save</span>(ld_data, <span class="at">file_name =</span> <span class="fu">tempfile</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">gt_save</span>(ld_data, <span class="at">file_name =</span> <span class="fu">tempfile</span>())</span></code></pre></div>
 <pre><code>## 
-## gen_tibble saved to /tmp/RtmpeA9m64/file2de1960b661.gt</code></pre>
-<pre><code>## using FBM RDS: /tmp/RtmpeA9m64/file2de14264ac25_v2.rds</code></pre>
-<pre><code>## with FBM backing file: /tmp/RtmpeA9m64/file2de14264ac25_v2.bk</code></pre>
+## gen_tibble saved to /tmp/Rtmpyi50Ar/file17f5324a39917.gt</code></pre>
+<pre><code>## using FBM RDS: /tmp/Rtmpyi50Ar/file17f537192c4d3_v2.rds</code></pre>
+<pre><code>## with FBM backing file: /tmp/Rtmpyi50Ar/file17f537192c4d3_v2.bk</code></pre>
 <pre><code>## make sure that you do NOT delete those files!</code></pre>
 <pre><code>## to reload the gen_tibble in another session, use:</code></pre>
-<pre><code>## gt_load(&#39;/tmp/RtmpeA9m64/file2de1960b661.gt&#39;)</code></pre>
-<pre><code>## [1] &quot;/tmp/RtmpeA9m64/file2de1960b661.gt&quot;     
-## [2] &quot;/tmp/RtmpeA9m64/file2de14264ac25_v2.rds&quot;
-## [3] &quot;/tmp/RtmpeA9m64/file2de14264ac25_v2.bk&quot;</code></pre>
+<pre><code>## gt_load(&#39;/tmp/Rtmpyi50Ar/file17f5324a39917.gt&#39;)</code></pre>
+<pre><code>## [1] &quot;/tmp/Rtmpyi50Ar/file17f5324a39917.gt&quot;    
+## [2] &quot;/tmp/Rtmpyi50Ar/file17f537192c4d3_v2.rds&quot;
+## [3] &quot;/tmp/Rtmpyi50Ar/file17f537192c4d3_v2.bk&quot;</code></pre>
 </div>
 <div id="grouping-data" class="section level1">
 <h1>Grouping data</h1>
@@ -596,13 +597,13 @@ includes multiple datasets you may want to group by population before
 running the quality control. This can be done using
 <code>group_by</code>.</p>
 <p>First, lets add some imaginary population data to our gen_tibble:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">population =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">4</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">population =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;B&quot;</span>, <span class="dv">4</span>)))</span></code></pre></div>
 <p>We can then group by population and run quality control on each
 group:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>grouped_loci_report <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
-<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">qc_report_loci</span>()</span>
-<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="fu">head</span>(grouped_loci_report)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>grouped_loci_report <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>  <span class="fu">qc_report_loci</span>()</span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a><span class="fu">head</span>(grouped_loci_report)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   snp_id   maf missingness hwe_p
 ##   &lt;chr&gt;  &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
@@ -617,10 +618,10 @@ equilibrium for each SNP within each population separately, providing a
 Bonferroni corrected p-value for each SNP.</p>
 <p>Similarly, we can run a quality control report for individuals within
 each population:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a>grouped_individual_report <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>  <span class="fu">qc_report_indiv</span>(<span class="at">kings_threshold =</span> <span class="fl">0.177</span>)</span>
-<span id="cb54-4"><a href="#cb54-4" tabindex="-1"></a><span class="fu">head</span>(grouped_individual_report)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a>grouped_individual_report <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a>  <span class="fu">qc_report_indiv</span>(<span class="at">kings_threshold =</span> <span class="fl">0.177</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" tabindex="-1"></a><span class="fu">head</span>(grouped_individual_report)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##   het_obs missingness id    group to_keep
 ##     &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;  
@@ -639,9 +640,9 @@ population structure can affect the filtering of relatives.</p>
 functions on grouped data. This is useful when you want to run the same
 quality control on each group of data, but don’t want to split the data
 into separate gen_tibbles.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>loci_maf_grouped <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
-<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a>  <span class="fu">loci_maf</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>loci_maf_grouped <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a>  <span class="fu">group_by</span>(population) <span class="sc">%&gt;%</span></span>
+<span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>  <span class="fu">loci_maf</span>()</span></code></pre></div>
 <p>Grouped functions are built for efficiency and surpass the use of
 applying a function with <code>group_map</code>.</p>
 </div>

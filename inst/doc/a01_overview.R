@@ -156,17 +156,6 @@ example_gt %>%
   pairwise_ibs()
 
 ## -----------------------------------------------------------------------------
-gt_file_name <- gt_save(example_gt)
-gt_file_name
-
-## -----------------------------------------------------------------------------
-gt_get_file_names(example_gt)
-
-## -----------------------------------------------------------------------------
-new_example_gt <- gt_load(gt_file_name[1])
-new_example_gt %>% show_genotypes()
-
-## -----------------------------------------------------------------------------
 bed_path_pop_a <- system.file("extdata/pop_a.bed", package = "tidypopgen")
 pop_a_gt <- gen_tibble(bed_path_pop_a, backingfile = tempfile("pop_a_"))
 
@@ -251,4 +240,77 @@ gt_uses_imputed(missing_gt)
 missing_gt %>%
   loci_missingness() %>%
   hist()
+
+## -----------------------------------------------------------------------------
+gt_file_name <- gt_save(example_gt)
+gt_file_name
+
+## -----------------------------------------------------------------------------
+gt_get_file_names(example_gt)
+
+## -----------------------------------------------------------------------------
+new_example_gt <- gt_load(gt_file_name[1])
+new_example_gt %>% show_genotypes()
+
+## -----------------------------------------------------------------------------
+new_example_gt <- new_example_gt %>% filter(!population == "pop1")
+
+## ----error = TRUE-------------------------------------------------------------
+try({
+gt_impute_simple(new_example_gt)
+})
+
+## -----------------------------------------------------------------------------
+new_example_gt <- gt_update_backingfile(new_example_gt,
+  backingfile = tempfile()
+)
+
+## -----------------------------------------------------------------------------
+gt_impute_simple(new_example_gt)
+
+## -----------------------------------------------------------------------------
+is_loci_table_ordered(new_example_gt)
+
+## -----------------------------------------------------------------------------
+test_indiv_meta <- data.frame(
+  id = c("a", "b", "c"),
+  population = c("pop1", "pop1", "pop2")
+)
+test_genotypes <- rbind(
+  c(1, 1, 0, 1, 1, 0),
+  c(2, 1, 0, 0, 0, 0),
+  c(2, 2, 0, 0, 1, 1)
+)
+test_loci <- data.frame(
+  name = paste0("rs", 1:6),
+  chromosome = paste0("chr", c(1, 2, 1, 1, 1, 2)),
+  position = as.integer(c(3, 5, 65, 343, 23, 456)),
+  genetic_dist = as.double(c(0.01, 0.01, 0.03, 0.03, 0.02, 0.015)),
+  allele_ref = c("A", "T", "C", "G", "C", "T"),
+  allele_alt = c("T", "C", NA, "C", "G", "A")
+)
+
+test_gt <- gen_tibble(
+  x = test_genotypes,
+  loci = test_loci,
+  indiv_meta = test_indiv_meta,
+  quiet = TRUE
+)
+
+## -----------------------------------------------------------------------------
+is_loci_table_ordered(test_gt)
+
+## -----------------------------------------------------------------------------
+reorder_test_gt <- gt_order_loci(test_gt)
+
+## -----------------------------------------------------------------------------
+is_loci_table_ordered(reorder_test_gt)
+
+## -----------------------------------------------------------------------------
+reorder_test_gt_again <- gt_order_loci(reorder_test_gt,
+  ignore_genetic_dist = FALSE
+)
+
+## -----------------------------------------------------------------------------
+is_loci_table_ordered(reorder_test_gt_again, ignore_genetic_dist = FALSE)
 
