@@ -508,7 +508,8 @@ Atlantic Forest and the Amazonian Forest.</p>
 don’t need to do any QC. Let us jump straight into analysis and run a
 PCA:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>anole_pca <span class="ot">&lt;-</span> anole_gt <span class="sc">%&gt;%</span> <span class="fu">gt_pca_partialSVD</span>(<span class="at">k =</span> <span class="dv">30</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Error: You can&#39;t have missing values in &#39;X&#39;.</span></span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; ! You can&#39;t have missing values in &#39;X&#39;.</span></span></code></pre></div>
 <p>OK, we jumped too quickly. There are missing data, and we need first
 to impute them:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>anole_gt <span class="ot">&lt;-</span> <span class="fu">gt_impute_simple</span>(anole_gt, <span class="at">method =</span> <span class="st">&quot;mode&quot;</span>)</span></code></pre></div>
