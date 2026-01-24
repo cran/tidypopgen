@@ -551,11 +551,11 @@ need to update the backingfiles with:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">gt_update_backingfile</span>(data)</span></code></pre></div>
 <pre><code>## 
 ## gen_backing files updated, now</code></pre>
-<pre><code>## using FBM RDS: /tmp/RtmpnDNFHZ/file93dc3a7defef_v2.rds</code></pre>
-<pre><code>## with FBM backing file: /tmp/RtmpnDNFHZ/file93dc3a7defef_v2.bk</code></pre>
+<pre><code>## using FBM RDS: /tmp/RtmpGFoWd8/file10d157b516eba_v2.rds</code></pre>
+<pre><code>## with FBM backing file: /tmp/RtmpGFoWd8/file10d157b516eba_v2.bk</code></pre>
 <pre><code>## make sure that you do NOT delete those files!</code></pre>
 <pre><code>## to reload the gen_tibble in another session, use:</code></pre>
-<pre><code>## gt_load(&#39;/tmp/RtmpnDNFHZ/file93dc3a7defef_v2.gt&#39;)</code></pre>
+<pre><code>## gt_load(&#39;/tmp/RtmpGFoWd8/file10d157b516eba_v2.gt&#39;)</code></pre>
 <p>And then we can impute using:</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>imputed_data <span class="ot">&lt;-</span> <span class="fu">gt_impute_simple</span>(data, <span class="at">method =</span> <span class="st">&quot;random&quot;</span>)</span></code></pre></div>
 <p>In this example, if we want to remove SNPs with a correlation greater
@@ -580,15 +580,15 @@ save a final quality controlled version of our <code>gen_tibble</code>
 using <code>gt_save</code>.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">gt_save</span>(ld_data, <span class="at">file_name =</span> <span class="fu">tempfile</span>())</span></code></pre></div>
 <pre><code>## 
-## gen_tibble saved to /tmp/RtmpnDNFHZ/file93dc3d09a82c.gt</code></pre>
-<pre><code>## using FBM RDS: /tmp/RtmpnDNFHZ/file93dc3a7defef_v2.rds</code></pre>
-<pre><code>## with FBM backing file: /tmp/RtmpnDNFHZ/file93dc3a7defef_v2.bk</code></pre>
+## gen_tibble saved to /tmp/RtmpGFoWd8/file10d152a95f45.gt</code></pre>
+<pre><code>## using FBM RDS: /tmp/RtmpGFoWd8/file10d157b516eba_v2.rds</code></pre>
+<pre><code>## with FBM backing file: /tmp/RtmpGFoWd8/file10d157b516eba_v2.bk</code></pre>
 <pre><code>## make sure that you do NOT delete those files!</code></pre>
 <pre><code>## to reload the gen_tibble in another session, use:</code></pre>
-<pre><code>## gt_load(&#39;/tmp/RtmpnDNFHZ/file93dc3d09a82c.gt&#39;)</code></pre>
-<pre><code>## [1] &quot;/tmp/RtmpnDNFHZ/file93dc3d09a82c.gt&quot;    
-## [2] &quot;/tmp/RtmpnDNFHZ/file93dc3a7defef_v2.rds&quot;
-## [3] &quot;/tmp/RtmpnDNFHZ/file93dc3a7defef_v2.bk&quot;</code></pre>
+<pre><code>## gt_load(&#39;/tmp/RtmpGFoWd8/file10d152a95f45.gt&#39;)</code></pre>
+<pre><code>## [1] &quot;/tmp/RtmpGFoWd8/file10d152a95f45.gt&quot;     
+## [2] &quot;/tmp/RtmpGFoWd8/file10d157b516eba_v2.rds&quot;
+## [3] &quot;/tmp/RtmpGFoWd8/file10d157b516eba_v2.bk&quot;</code></pre>
 </div>
 <div id="grouping-data" class="section level1">
 <h1>Grouping data</h1>
