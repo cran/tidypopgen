@@ -13,6 +13,10 @@ data <- gen_tibble(
 )
 
 ## -----------------------------------------------------------------------------
+count_loci(data)
+nrow(data)
+
+## -----------------------------------------------------------------------------
 individual_report <- qc_report_indiv(data)
 summary(individual_report)
 
@@ -35,7 +39,7 @@ data <- data %>% filter(indiv_het_obs(genotypes) < upper)
 nrow(data)
 
 ## -----------------------------------------------------------------------------
-individual_report <- qc_report_indiv(data, kings_threshold = 0.177)
+individual_report <- qc_report_indiv(data, kings_threshold = "first")
 summary(individual_report)
 
 ## -----------------------------------------------------------------------------
@@ -55,9 +59,9 @@ autoplot(loci_report, type = "overview")
 ## ----fig.alt = "Upset plot as above, with adjusted thresholds"----------------
 autoplot(loci_report,
   type = "overview",
-  miss_threshold = 0.03,
-  maf_threshold = 0.02,
-  hwe_p = 0.01
+  miss_threshold = 0.05,
+  maf_threshold = 0.1,
+  hwe_p = 0.05
 )
 
 ## ----fig.alt = "Four panel plot, containing: a histogram of the proportion of missing data for snps with minor allele frequency above the threshold, a histogram of the proportion of missing data for snps with minor allele freqency below the threshold, a histogram of HWE exact test p-values, and a histogram of significant HWE exact test p-values"----
