@@ -467,9 +467,13 @@ pruning.</p>
 <div id="quality-control-for-relatedness-king" class="section level2">
 <h2>Quality control for relatedness (KING)</h2>
 <table>
+<colgroup>
+<col width="40%" />
+<col width="59%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>KING</th>
+<th>KING / PLINK</th>
 <th><code>tidypopgen</code></th>
 </tr>
 </thead>
@@ -479,10 +483,14 @@ pruning.</p>
 <td><code>pairwise_king()</code></td>
 </tr>
 <tr class="even">
-<td>–distance</td>
+<td>–distance ibs flat-missing</td>
 <td><code>pairwise_ibs()</code></td>
 </tr>
 <tr class="odd">
+<td>–distance flat-missing</td>
+<td><code>pairwise_ibs(type = &quot;adjusted_counts&quot;)</code></td>
+</tr>
+<tr class="even">
 <td>–unrelated</td>
 <td><code>filter_high_relatedness()</code></td>
 </tr>
